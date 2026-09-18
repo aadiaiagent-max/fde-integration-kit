@@ -1,0 +1,31 @@
+{
+  "name": "@aadiaiagent/fde-integration-kit",
+  "version": "1.0.0",
+  "description": "Forward Deployed Engineer toolkit for customer environment validation, config schema checks, smoke tests, and deploy-readiness gating.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "example": "tsx examples/basic.ts"
+  },
+  "engines": { "node": ">=20" },
+  "keywords": ["fde", "forward-deployed-engineer", "readiness", "smoke-test", "config-validation", "customer-env"],
+  "author": "aadiaiagent-max",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
