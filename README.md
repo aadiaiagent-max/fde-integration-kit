@@ -1,10 +1,10 @@
 # @aadiaiagent/fde-integration-kit
 
-**Forward Deployed Engineer showcase** — offline customer-environment validation, config schema checks, smoke tests, and a fail-closed deploy-readiness gate.
+**Customer-environment / deploy readiness toolkit** — offline config schema checks, environment probes, smoke tests, and a fail-closed deploy-readiness gate.
 
 Zero runtime dependencies beyond the TypeScript toolchain (`typescript`, `vitest`, `tsx`). Node **20+**, ESM, MIT.
 
-> Built for hiring managers evaluating FDE / Solutions / Deployed Engineer craft: the boring failures that kill customer installs, caught before go-live.
+Catches the boring failures that kill customer installs — missing config, wrong Node version, empty env vars — before go-live.
 
 ---
 
@@ -17,7 +17,7 @@ Customer installs rarely fail because the demo script looked good. They fail bec
 - An env var the adapter depends on was empty in the customer VPC
 - A “smoke” assumption (HTTPS URL, timeout range, reachable dependency) was never checked
 
-This kit models the **pre-deploy gate** an FDE runs in (or against) the customer environment: validate config → probe env → run smoke cases → **assess readiness fail-closed**. No API keys. No network calls. Injectable env so it stays offline and testable.
+This kit models the **pre-deploy gate** run in (or against) the customer environment: validate config → probe env → run smoke cases → **assess readiness fail-closed**. No API keys. No network calls. Injectable env so it stays offline and testable.
 
 ---
 
@@ -100,10 +100,10 @@ if (!report.pass) {
 | Choice | Rationale |
 |--------|-----------|
 | **Fail-closed readiness** | Empty or partial check lists must not greenlight a deploy. `assessReadiness([])` → `pass: false`. |
-| **Injectable `CustomerEnv`** | Never couple to `process.env` inside the library. FDEs inject a snapshot from the customer host, a secrets manager export, or a test fixture. Offline + hermetic tests. |
+| **Injectable `CustomerEnv`** | Never couple to `process.env` inside the library. Inject a snapshot from the customer host, a secrets manager export, or a test fixture. Offline + hermetic tests. |
 | **Offline / no network** | No HTTP clients, no cloud SDKs, no API keys. Safe to run inside air-gapped customer networks. |
 | **Zero runtime deps** | Only `typescript` / `vitest` / `tsx` as **dev** tooling. The published surface is plain ESM TypeScript compiled to JS. |
-| **Simple schema** | `string` \| `number` \| `boolean` + `required`. Enough to catch the config mistakes that dominate install tickets; not a JSON Schema clone. |
+| **Simple schema** | `string` / `number` / `boolean` + `required`. Enough to catch the config mistakes that dominate install tickets; not a JSON Schema clone. |
 | **Smoke captures, doesn’t throw** | `runSmoke` turns thrown errors into `CheckResult` so the gate can aggregate config + env + smoke in one report. |
 
 ---
